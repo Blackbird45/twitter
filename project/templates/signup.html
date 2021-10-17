@@ -12,27 +12,65 @@
         {% endif %}
         {% endwith %}
 
-        <form method="POST" action="/signup">
+        <form id="signupForm" method="POST" action="/signup">
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" type="email" name="email" placeholder="Email" autofocus="">
+                    <input class="input is-large" type="email" name="email" placeholder="Email" autofocus="" required>
                 </div>
             </div>
 
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" type="text" name="name" placeholder="Name" autofocus="">
+                    <input class="input is-large" type="text" name="name" placeholder="Name" autofocus="" required>
                 </div>
             </div>
 
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" type="password" name="password" placeholder="Password">
+                    <input class="input is-large" type="password" name="password" placeholder="Password" required>
                 </div>
             </div>
+            <img src="https://www.3engine.net/wp/wp-content/uploads/2016/03/loading.gif" id="loading" style="display:none"/>
 
-            <button class="button is-block is-info is-large is-fullwidth">Sign Up</button>
+            <button id="signupButton" class="button is-info is-large is-fullwidth">Sign Up</button>
         </form>
     </div>
 </div>
+<script>
+    // bind the form submit event to our function
+    $("#signupForm").bind('submit', function(e) {
+        // prevent page refresh
+        e.preventDefault();
+        // post the data
+        var formData = {};
+        formData.email    =  $('input[name="email"]').val();
+        formData.name     =  $('input[name="name"]').val();
+		formData.password =  $('input[name="password"]').val();
+
+        var ajax=$.ajax({
+            type: "POST",
+            data: JSON.stringify(formData),
+            contentType: 'application/json;charset=UTF-8',
+            dataType: "json",
+            url: "ajax_signup",
+            beforeSend: function() {
+                $('#loading').show();
+                $('#signupButton').hide();
+            },
+            complete: function(){
+                $('#loading').hide();
+                $('#signupButton').show();
+            },
+            success: function(responseJson){
+
+                alert('Success: ' + responseJson.message);
+            },
+            error: function(response){
+                let json = response.responseJSON;
+                
+               alert('Error: ' + json.message);
+            }
+        });
+    });
+</script>
 {% endblock %}
