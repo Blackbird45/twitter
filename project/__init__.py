@@ -14,19 +14,28 @@ def create_app():
 
     db.init_app(app)
 
+    # controllers module register
+    from .controllers import controllers as controllers_blueprint
+    app.register_blueprint(controllers_blueprint)
+
+    # models module register
+    from .models import models as models_blueprint
+    app.register_blueprint(models_blueprint)
+    
+    
     # blueprint for auth routes in our app
-    from .auth import auth as auth_blueprint
+    from .controllers.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
     # blueprint for non-auth parts of app
-    from .main import main as main_blueprint
+    from .controllers.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    from .models import User
+    from .models.models import User
 
     @login_manager.user_loader
     def load_user(user_id):
