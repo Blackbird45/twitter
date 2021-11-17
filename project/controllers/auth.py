@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
 from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-from ..models.models import User
+from ..models.user import User
 from project import db 
 import time
 
@@ -29,7 +29,7 @@ def login_post():
     login_user(user, remember=remember)
 
     # if the above check passes, then we know the user has the right credentials
-    return redirect(url_for('main.profile'))
+    return redirect(url_for('perfil.profile'))
 
 @auth.route('/signup')
 def signup():

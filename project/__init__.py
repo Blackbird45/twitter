@@ -31,11 +31,15 @@ def create_app():
     from .controllers.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
+    from .controllers.perfil import perfil as perfil_blueprint
+    app.register_blueprint(perfil_blueprint)
+
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    from .models.models import User
+    from .models.comment import Comment
+    from .models.user import User
 
     @login_manager.user_loader
     def load_user(user_id):

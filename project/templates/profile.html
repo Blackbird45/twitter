@@ -4,4 +4,26 @@
 <h1 class="title">
   Welcome, {{ user_name }}
 </h1>
+
+<main>
+  <!-- note that we use a dash here for our CSS class name
+  that contains multiple words, that's a CSS convention -->
+  <section class="comment-input">
+      <p>Add Your Comment:</p>
+      <input type="text" /><button id="addCommentButton">+</button>
+      <img src="https://www.3engine.net/wp/wp-content/uploads/2016/03/loading.gif" id="loading" style="display:none"/>
+  </section>
+  
+  
+  
+  <section class="comments">
+      <p>This is the first comment!</p>
+      <p>Here's the second one!</p>
+      <p>And this is one more.</p>
+      <p>Here is another one</p>
+  </section>
+</main>
+
+<script src="{{ url_for('static', filename='js/comments.js') }}"></script>
+
 {% endblock %}
