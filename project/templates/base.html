@@ -8,6 +8,8 @@
     <title>Flask Auth Example</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bulma.min.css')}}" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='js/gmaps.js')}}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gmaps.css')}}" />
 </head>
 
 <body>
@@ -53,6 +55,8 @@
             </div>
         </div>
     </section>
+    {% block gmap %}
+    {% endblock %}
 </body>
 
 </html>

@@ -3,13 +3,37 @@ from flask_login import login_required, current_user
 from ..models.comment import Comment
 from project import db 
 import time
+from TwitterAPI import TwitterAPI, TwitterOAuth, TwitterRequestError, TwitterConnectionError
 
 perfil = Blueprint('perfil', __name__)
 
 @perfil.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html', user_name=current_user.email)
+   # USER_ID = '1370127146421780481'
+    USER_ID = current_user.twitter_id
+
+    try:
+        api = TwitterAPI('U6M1BkpdScCQwvGe0rXQ2kfW1', 'g7dhETjYejLMHNHYcXhvz3nw3ZauKAOHZq1ULoYNx8MJClF6j2', '1370127146421780481-mdjuxIlcHpOK7lDsXmMzAYbGU3SZkt', 'vfKtYgNRK878A4mgT3RgVOPZZ9P4TsPq2b5FxMfhT8X1i', api_version='2')
+        
+        params = {'max_results':5}
+        user_tweets = api.request(f'users/:{USER_ID}/tweets',params)
+        user_tweets = user_tweets.json()['data']
+    
+    except TwitterRequestError as e:
+        print('Request error')
+        print(e.status_code)
+        for msg in iter(e):
+            print(msg)
+
+    except TwitterConnectionError as e:
+        print('Connection error')
+        print(e)
+
+    except Exception as e:
+        print('Exception')
+        print(e)
+    return render_template('profile.html', user_name=current_user.email, tweets=user_tweets)
 
 @perfil.route('/ajax_new_comment', methods=['POST'])
 @login_required

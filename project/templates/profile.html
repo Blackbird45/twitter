@@ -14,16 +14,25 @@
       <img src="https://www.3engine.net/wp/wp-content/uploads/2016/03/loading.gif" id="loading" style="display:none"/>
   </section>
   
-  
-  
   <section class="comments">
-      <p>This is the first comment!</p>
-      <p>Here's the second one!</p>
-      <p>And this is one more.</p>
-      <p>Here is another one</p>
+    {% for tweet in tweets %}
+    <p>{{ tweet['text'] }}</p>
+    {% endfor %}
   </section>
+  
 </main>
+{% endblock %}
+
+{% block gmap %}
+<div id="map"></div>
 
 <script src="{{ url_for('static', filename='js/comments.js') }}"></script>
+<script src="{{ url_for('static', filename='js/gmap.js') }}"></script>
+
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABbI9nvLK4TmHdkk2UmraGvt6dIe1pYng&callback=initMap&v=weekly&language=es&region=EC"
+      async
+  >
+</script>
 
 {% endblock %}

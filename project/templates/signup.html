@@ -21,6 +21,12 @@
 
             <div class="field">
                 <div class="control">
+                    <input class="input is-large" type="text" name="twitter_username" placeholder="Twitter Username" autofocus="" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
                     <input class="input is-large" type="text" name="name" placeholder="Name" autofocus="" required>
                 </div>
             </div>
@@ -36,7 +42,7 @@
         </form>
     </div>
 </div>
-<script>
+<!-- <script>
     // bind the form submit event to our function
     $("#signupForm").bind('submit', function(e) {
         // prevent page refresh
@@ -44,6 +50,7 @@
         // post the data
         var formData = {};
         formData.email    =  $('input[name="email"]').val();
+        formData.name     =  $('input[twitter_username="twitter_username"]').val();
         formData.name     =  $('input[name="name"]').val();
 		formData.password =  $('input[name="password"]').val();
 
@@ -64,6 +71,7 @@
             success: function(responseJson){
 
                 alert('Success: ' + responseJson.message);
+                window.location.href = '/login';
             },
             error: function(response){
                 let json = response.responseJSON;
@@ -72,5 +80,6 @@
             }
         });
     });
-</script>
+</script> -->
+
 {% endblock %}
