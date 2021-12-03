@@ -36,72 +36,72 @@ def login_post():
 def signup():
     return render_template('signup.html')
 
-@auth.route('/signup', methods=['POST'])
-def signup_post():
+# @auth.route('/signup', methods=['POST'])
+# def signup_post():
 
-    email    = request.form.get('email')
-    name     = request.form.get('name')
-    password = request.form.get('password')
-    twitter_username = request.form.get('twitter_username')
-    twitter_id = api.request(f'users/by/username/:{twitter_username}')
-    twitter_id = twitter_id.json()['data']['id']
-    user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
+#     email    = request.form.get('email')
+#     name     = request.form.get('name')
+#     password = request.form.get('password')
+#     twitter_username = request.form.get('twitter_username')
+#     twitter_id = api.request(f'users/by/username/:{twitter_username}')
+#     twitter_id = twitter_id.json()['data']['id']
+#     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
-    if user: # if a user is found, we want to redirect back to signup page so user can try again
-        flash('Email address already exists')
-        return redirect(url_for('auth.signup'))
+#     if user: # if a user is found, we want to redirect back to signup page so user can try again
+#         flash('Email address already exists')
+#         return redirect(url_for('auth.signup'))
 
-    # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-    new_user = User(email=email, 
-                    name=name, 
-                    password=generate_password_hash(password, method='sha256'), 
-                    twitter_id=twitter_id,
-                    twitter_username=twitter_username
-                    )
+#     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
+#     new_user = User(email=email, 
+#                     name=name, 
+#                     password=generate_password_hash(password, method='sha256'), 
+#                     twitter_id=twitter_id,
+#                     twitter_username=twitter_username
+#                     )
 
-    # add the new user to the database
-    db.session.add(new_user)
-    db.session.commit()
+#     # add the new user to the database
+#     db.session.add(new_user)
+#     db.session.commit()
 
-    return redirect(url_for('auth.login'))
+#     return redirect(url_for('auth.login'))
 
-@auth.route('/ajax_signup', methods=['POST'])
-def ajax_signup_post():
-    _json = request.json
-    responseMessage = {'message' : 'The account has been created'}
-    responseStatusCode = 200
-    time.sleep(5)
+# @auth.route('/ajax_signup', methods=['POST'])
+# def ajax_signup_post():
+#     _json = request.json
+#     responseMessage = {'message' : 'The account has been created'}
+#     responseStatusCode = 200
+#     time.sleep(5)
 	
-    email    = _json['email']
-    name     = _json['name']
-    password = _json['password']
-    twitter_username = request.form.get('twitter_username')
-    twitter_id = api.request(f'users/by/username/:{twitter_username}')
-    twitter_id = twitter_id.json()['data']['id']
+#     email    = _json['email']
+#     name     = _json['name']
+#     password = _json['password']
+#     twitter_username = request.form.get('twitter_username')
+#     twitter_id = api.request(f'users/by/username/:{twitter_username}')
+#     twitter_id = twitter_id.json()['data']['id']
     
 
-    user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
+#     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
-    if user: # if a user is found, we want to redirect back to signup page so user can try again
-        responseMessage = {'message' : 'Email address already exists'}
-        responseStatusCode = 400
-    else:
-        # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-        new_user = User(email=email, 
-                        name=name, 
-                        password=generate_password_hash(password, method='sha256'), 
-                        twitter_id=twitter_id,
-                        twitter_username=twitter_username
-                        )
+#     if user: # if a user is found, we want to redirect back to signup page so user can try again
+#         responseMessage = {'message' : 'Email address already exists'}
+#         responseStatusCode = 400
+#     else:
+#         # create a new user with the form data. Hash the password so the plaintext version isn't saved.
+#         new_user = User(email=email, 
+#                         name=name, 
+#                         password=generate_password_hash(password, method='sha256'), 
+#                         twitter_id=twitter_id,
+#                         twitter_username=twitter_username
+#                         )
 
-        # add the new user to the database
-        db.session.add(new_user)
-        db.session.commit()
+#         # add the new user to the database
+#         db.session.add(new_user)
+#         db.session.commit()
     
-    response = jsonify(responseMessage)
-    response.status_code = responseStatusCode
+#     response = jsonify(responseMessage)
+#     response.status_code = responseStatusCode
 
-    return response
+#     return response
 
 @auth.route('/logout')
 @login_required

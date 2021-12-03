@@ -16,7 +16,7 @@ $("#signupForm").bind('submit', function(e) {
         data: JSON.stringify(formData),
         contentType: 'application/json;charset=UTF-8',
         dataType: "json",
-        url: "ajax_signup",
+        url: "http://127.0.0.1:8000/users/",
         beforeSend: function() {
             $('#loading').show();
             $('#signupButton').hide();
@@ -28,12 +28,9 @@ $("#signupForm").bind('submit', function(e) {
         success: function(responseJson){
 
             alert('Success: ' + responseJson.message);
-            window.location.href = '/login';
         },
         error: function(response){
-            let json = response.responseJSON;
-            
-           alert('Error: ' + json.message);
+           alert('Error: ' + response);
         }
     });
 });
